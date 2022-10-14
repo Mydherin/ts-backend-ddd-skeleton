@@ -14,7 +14,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "husky": "4.3.8",
+    "lint-staged": "13.0.3",
     "ts-node-dev": "2.0.0",
+    "ts-standard": "12.0.1",
     "typescript": "4.8.4"
   },
   "dependencies": {
@@ -24,6 +27,19 @@
     "parserOptions": {
       "project": "./tsconfig.json"
     },
-    "extends": ["./node_modules/ts-standard/eslintrc.json"]
+    "extends": [
+      "./node_modules/ts-standard/eslintrc.json"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "{src,tests}/**/*.ts": [
+      "npm run lint:fix",
+      "git add"
+    ]
   }
 }
