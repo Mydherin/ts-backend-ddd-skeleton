@@ -1,3 +1,2 @@
-const myString: string = 'Hello world'
-
-console.log(myString);
+const strings: string[] = ['hello']
+console.log(strings)

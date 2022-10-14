@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules src/index.ts",
-    "build": "npm run build:clean && copyfiles 'src/**/*.{json,yaml,html,png}' dist/src && tsc",
+    "dev": "NODE_ENV=dev ts-node-dev --ignore-watch ./node_modules ./src/index.ts",
+    "build": "npm run build:clean && copyfiles './src/**/*.{json,yaml,html,png}' dist/src && tsc",
     "build:clean": "rm -r build; exit 0",
-    "start": "NODE_ENV=production node build/index.js"
+    "start": "NODE_ENV=production node ./build/index.js",
+    "lint": "ts-standard",
+    "lint:fix": "ts-standard --fix"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +19,11 @@
   },
   "dependencies": {
     "copyfiles": "2.4.1"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "extends": ["./node_modules/ts-standard/eslintrc.json"]
   }
 }
