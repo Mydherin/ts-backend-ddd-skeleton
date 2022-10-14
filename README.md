@@ -1,4 +1,4 @@
-# Typescript skeleton
+# TS Backend DDD Skeleton
 
 **Features:**
 
