@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import getContainer from '../factories'
+import StatusGetController from '../controllers/StatusGetController'
 
-export default async function register (router: Router): Promise<void> {
-  const container = await getContainer()
-  const controller = container.get('App.controllers.StatusGetController')
-  router.get('/status', (req, res) => {
-    void controller.run(req, res) // Async function
+export default function register (router: Router): void {
+  const controller = new StatusGetController()
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  router.get('/status', async (req, res) => {
+    await controller.run(req, res)
   })
 }

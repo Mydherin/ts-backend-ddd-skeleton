@@ -1,7 +1,8 @@
 import bodyParser from 'body-parser'
 import compress from 'compression'
 import errorHandler from 'errorhandler'
-import express, { Request, Response, Router } from 'express'
+import express, { Request, Response } from 'express'
+import Router from 'express-promise-router'
 import helmet from 'helmet'
 import * as http from 'http'
 import httpStatus from 'http-status'
@@ -32,14 +33,12 @@ export class Server {
     this.express.use(helmet.frameguard({ action: 'deny' })) // It protects against clickjacking attacks
     this.express.use(compress()) // It tries to compress every response body saving bandwidth
     this.express.use(router) // Assing the router to the express object
-    this.express.use(this.notFound) // Handle not found error
+    registerRoutes(router) // Register all routes
     if (process.env.NODE_ENV === 'dev') {
       this.express.use(errorHandler()) // Handle any unexpected exception an show details on client side
     }
     this.express.use(this.internalSeverError) // Handle any unexpected exception as 500 Internal Server Error
-
-    // Register all routes
-    void registerRoutes(router) // Async function
+    this.express.use(this.notFound) // Handle not found error
   }
 
   // Not found json middleware

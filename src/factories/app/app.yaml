@@ -1,4 +1,9 @@
 services:
-  App.controllers.StatusGetController:
-    class: ../../controllers/StatusGetController
+  
+  App.Context.User.domain.UserRepository:
+    class:  ../../Context/User/infrastructure/DumpUserRepository
     arguments: []
+  
+  App.Context.User.application.UserCreator:
+    class: ../../Context/User/application/UserCreator
+    arguments: ["@App.Context.User.domain.UserRepository"]

@@ -2,17 +2,18 @@ import { Router } from 'express'
 import glob from 'glob'
 import path from 'path'
 
-export async function registerRoutes (router: Router): Promise<void> {
+export function registerRoutes (router: Router): void {
   // Read *.route.ts files in routes folder
   const routes = glob.sync(path.join(__dirname, '/**/*.route.*'))
   // Register the routes for each file
-  await routes.map(async route => await register(route, router))
+  routes.map(route => register(route, router))
 }
 
-async function register (routePath: string, router: Router): Promise<void> {
+function register (routePath: string, router: Router): void {
   // Import register method from route file
-  let register = await import(routePath)
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  let register = require(routePath)
   register = register.default
   // Register routes on router
-  await register(router)
+  register(router)
 }
