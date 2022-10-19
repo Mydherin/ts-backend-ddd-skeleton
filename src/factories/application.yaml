@@ -1,2 +1,2 @@
 imports:
-  - { resource: ./app/app.yaml }
+  - { resource: ./User/app.yaml }
