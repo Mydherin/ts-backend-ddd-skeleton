@@ -9,12 +9,17 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
+        mongodb-version: [5.0]
     steps:
       - uses: actions/checkout@v1
       - name: Deploy Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Deploy MongoDB
+        uses: wbari/start-mongoDB@v0.2
+        with:
+          mongoDBVersion: ${{ matrix.mongodb-version }}
       - name: Install dependencies
         run: |
           npm install
