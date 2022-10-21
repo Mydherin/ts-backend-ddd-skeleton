@@ -1,4 +1,14 @@
 services:
+  App.Context.Shared.infrastructure.mongo.MongoConfig:
+    factory: 
+      class: '../../Context/Shared/infrastructure/mongo/MongoConfigFactory'
+      method: 'create' 
+
+  App.Context.Shared.infrastructure.mongo.MongoClient:
+    factory:
+      class: '../../Context/Shared/infrastructure/mongo/MongoClientFactory'
+      method: 'create'
+    arguments: ['@App.Context.Shared.infrastructure.mongo.MongoConfig']
   
   App.Context.User.domain.UserRepository:
     class:  ../../Context/User/infrastructure/DumpUserRepository

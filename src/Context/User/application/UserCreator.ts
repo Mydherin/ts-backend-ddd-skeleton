@@ -4,7 +4,7 @@ import UserEmail from '../domain/value-objects/UserEmail'
 import UserId from '../domain/value-objects/UserId'
 import UserName from '../domain/value-objects/UserName'
 import UserPassword from '../domain/value-objects/UserPassword'
-import UserCreatorRequest from './UserCreataorRequest'
+import UserCreatorRequest from './UserCreatorRequest'
 import UserCase from '../../Shared/application/UseCase'
 
 export default class UserCreator implements UserCase<UserCreatorRequest> {

@@ -1,2 +1,11 @@
 imports:
   - { resource: ./application.yaml }
+
+services:
+  App.Context.User.infrastructure.mongo.MongoUserRepository:
+    class: '../Context/User/infrastructure/mongo/MongoUserRepository'
+    arguments: ['@App.Context.Shared.infrastructure.mongo.MongoClient']
+  
+  App.tests.Context.Shared.infrastructure.MongoEnvironmentArranger:
+    class: '../../tests/Context/Shared/infrastructure/mongo/MongoEnvironmentArranger'
+    arguments: ['@App.Context.Shared.infrastructure.mongo.MongoClient']
