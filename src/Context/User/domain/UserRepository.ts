@@ -1,7 +1,7 @@
 import User from './User'
-import UserId from './value-objects/UserId'
+import UserName from './value-objects/UserName'
 
 export default interface UserRepository {
   save: (user: User) => Promise<void>
-  search: (id: UserId) => Promise<User | null>
+  search: (name: UserName) => Promise<User | null>
 }

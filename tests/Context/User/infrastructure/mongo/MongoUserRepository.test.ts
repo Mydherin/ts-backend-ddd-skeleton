@@ -1,7 +1,6 @@
 import { ContainerBuilder } from 'node-dependency-injection'
 import User from '../../../../../src/Context/User/domain/User'
 import UserEmail from '../../../../../src/Context/User/domain/value-objects/UserEmail'
-import UserId from '../../../../../src/Context/User/domain/value-objects/UserId'
 import UserName from '../../../../../src/Context/User/domain/value-objects/UserName'
 import UserPassword from '../../../../../src/Context/User/domain/value-objects/UserPassword'
 import MongoUserRepository from '../../../../../src/Context/User/infrastructure/mongo/MongoUserRepository'
@@ -29,7 +28,6 @@ describe('Mongo User Repository', () => {
   it('should save an user', async () => {
     // Create new User
     const expectedUser = new User({
-      id: new UserId('0766c602-d4d4-48b6-9d50-d3253123275e'),
       name: new UserName('Mydherin'),
       password: new UserPassword('P@ssw0rd'),
       email: new UserEmail('email@email.com')
@@ -37,7 +35,7 @@ describe('Mongo User Repository', () => {
     // Save it using mongo user repository
     await repository.save(expectedUser)
     // Get user
-    const user = await repository.search(expectedUser.id)
+    const user = await repository.search(expectedUser.name)
     expect(user).toEqual(expectedUser)
   })
 })

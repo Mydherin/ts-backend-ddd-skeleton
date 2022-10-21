@@ -6,7 +6,6 @@ import validateReqSchema from './validate'
 export default function register (router: Router): void {
   // Define validation schema
   const reqSchema = [
-    body('id').exists().isString(),
     body('name').exists().isString(),
     body('password').exists().isString(),
     body('email').exists().isString()

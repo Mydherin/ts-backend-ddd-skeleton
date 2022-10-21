@@ -2,7 +2,7 @@ import MongoRepository from '../../../Shared/infrastructure/mongo/MongoRepositor
 import User from '../../domain/User'
 import UserRepository from '../../domain/UserRepository'
 import UserRequestFactory from '../../domain/UserRequestFactory'
-import UserId from '../../domain/value-objects/UserId'
+import UserName from '../../domain/value-objects/UserName'
 
 export default class MongoUserRepository extends MongoRepository implements UserRepository {
   collectionName (): string {
@@ -10,13 +10,13 @@ export default class MongoUserRepository extends MongoRepository implements User
   }
 
   async save (user: User): Promise<void> {
-    await this.persist(user.id.value, user)
+    await this.persist({ name: user.name.value }, user)
   }
 
-  async search (id: UserId): Promise<User | null> {
+  async search (name: UserName): Promise<User | null> {
     const collection = await this.collection()
-    const document = await collection.findOne({ _id: id.value })
+    const document = await collection.findOne({ name: name.value })
 
-    return (document != null) ? UserRequestFactory.create({ id: id.value, name: document.name, password: document.password, email: document.email }) : null
+    return (document != null) ? new User(UserRequestFactory.create({ name: name.value, password: document.password, email: document.email })) : null
   }
 }

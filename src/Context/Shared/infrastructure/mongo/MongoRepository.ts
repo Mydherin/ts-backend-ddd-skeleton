@@ -14,12 +14,12 @@ export default abstract class MongoRepository {
     return (await this.client).db().collection(this.collectionName())
   }
 
-  protected async persist (id: string, aggregate: Aggregate): Promise<void> {
+  protected async persist (id: Object, aggregate: Aggregate): Promise<void> {
     // Get collection name
     const collection = await this.collection()
     // Define document
-    const document = { ...aggregate.toPrimitives(), _id: id, id: undefined }
+    const document = { ...aggregate.toPrimitives() }
     // Update
-    await collection.updateOne({ _id: id }, { $set: document }, { upsert: true })
+    await collection.updateOne(id, { $set: document }, { upsert: true })
   }
 }

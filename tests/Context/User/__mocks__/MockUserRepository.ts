@@ -1,27 +1,24 @@
 import User from '../../../../src/Context/User/domain/User'
 import UserRepository from '../../../../src/Context/User/domain/UserRepository'
-import UserId from '../../../../src/Context/User/domain/value-objects/UserId'
+import UserName from '../../../../src/Context/User/domain/value-objects/UserName'
 
 export default class MockUserRepository implements UserRepository {
   private readonly saveMock: jest.Mock
-  private readonly searchMock: jest.Mock
 
   constructor () {
     this.saveMock = jest.fn()
-    this.searchMock = jest.fn()
   }
 
   async save (user: User): Promise<void> {
     this.saveMock(user)
   }
 
-  async search (id: UserId): Promise<User | null> {
-    this.searchMock(id)
-    return null
-  }
-
-  assertSearchHaveBeenCalledWith (id: UserId): void {
-    expect(this.saveMock).toHaveBeenCalledWith(id)
+  async search (_name: UserName): Promise<User | null> {
+    if (this.saveMock.mock.lastCall === undefined) {
+      return null
+    } else {
+      return new User(this.saveMock.mock.lastCall[0])
+    }
   }
 
   assertSaveHaveBeenCalledWith (user: User): void {

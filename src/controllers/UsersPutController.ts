@@ -17,13 +17,13 @@ export default class UsersPutController implements Controller {
     // Instance the use case
     const useCase: UserCreator = container.get('App.Context.User.application.UserCreator')
     // Get data from request
-    const { id, name, password, email } = req.body
+    const { name, password, email } = req.body
     try {
       // Run use case
-      await useCase.run({ id, name, password, email })
+      await useCase.run({ name, password, email })
       // Return response
       res.status(httpStatus.CREATED).send()
-    } catch (error) {
+    } catch (error) { // Handle errors
       // If an argument is not valid
       const errors = []
       if (error instanceof InvalidArgument) {
