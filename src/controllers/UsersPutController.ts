@@ -8,6 +8,7 @@ import InvalidArgument from '../Context/Shared/domain/errors/InvalidArgument'
 import InvalidUsernamedError from '../Context/Shared/domain/errors/InvalidUsernameError'
 import InvalidPasswordError from '../Context/Shared/domain/errors/InvalidPasswordError'
 import InvalidEmailError from '../Context/Shared/domain/errors/InvalidEmailError'
+import DuplicatedUserError from '../Context/User/application/errors/DuplicatedUserError'
 
 export default class UsersPutController implements Controller {
   async run (req: Request, res: Response): Promise<void> {
@@ -24,8 +25,8 @@ export default class UsersPutController implements Controller {
       res.status(httpStatus.CREATED).send()
     } catch (error) {
       // If an argument is not valid
+      const errors = []
       if (error instanceof InvalidArgument) {
-        const errors = []
         if (error instanceof InvalidUuidError) { // Invalid UUID error
           errors.push({
             id: 'Invalid value'
@@ -44,6 +45,11 @@ export default class UsersPutController implements Controller {
           })
         }
         res.status(httpStatus.UNPROCESSABLE_ENTITY).json(errors)
+      } else if (error instanceof DuplicatedUserError) {
+        errors.push({
+          id: 'Duplicated user'
+        })
+        res.status(httpStatus.CONFLICT).send(errors)
       } else {
         throw error
       }

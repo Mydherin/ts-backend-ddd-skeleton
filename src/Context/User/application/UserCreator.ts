@@ -6,6 +6,7 @@ import UserName from '../domain/value-objects/UserName'
 import UserPassword from '../domain/value-objects/UserPassword'
 import UserCreatorRequest from './UserCreatorRequest'
 import UserCase from '../../Shared/application/UseCase'
+import DuplicatedUser from './errors/DuplicatedUserError'
 
 export default class UserCreator implements UserCase<UserCreatorRequest> {
   private readonly repository: UserRepository
@@ -26,7 +27,15 @@ export default class UserCreator implements UserCase<UserCreatorRequest> {
     // Create user
     const user = new User({ id, name, password, email })
 
-    // Save user
-    await this.repository.save(user)
+    // Get user from repositiory
+    const repositioryUser = await this.repository.search(id)
+    // Check if the user exists in repository
+    if (repositioryUser === null) {
+      // Save user
+      await this.repository.save(user)
+    } else {
+      // Throw existing user error
+      throw new DuplicatedUser(`The user <${id.value}> has already registered`)
+    }
   }
 }

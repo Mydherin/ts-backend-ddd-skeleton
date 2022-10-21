@@ -15,6 +15,19 @@ Feature: Create a new user
     Then the response status code should be 201
     And the response should be empty
     
+    Scenario: A duplicated user
+    Given I send a PUT request to "/users" with body:
+    """
+    {
+        "id": "0766c602-d4d4-48b6-9d50-d3253123275e",
+        "name": "Mydherin",
+        "password": "P@ssw0rd",
+        "email": "email@email.com"
+    }
+    """
+    Then the response status code should be 409
+    And the response should contain "Duplicated" 
+    
     Scenario: No id
     Given I send a PUT request to "/users" with body:
     """
