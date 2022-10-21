@@ -16,7 +16,7 @@ export default class UserCreator implements UserCase<UserCreatorRequest> {
   }
 
   // Run use case method
-  run (request: UserCreatorRequest): void {
+  async run (request: UserCreatorRequest): Promise<void> {
     // Create value objects
     const id: UserId = new UserId(request.id)
     const name: UserName = new UserName(request.name)
@@ -27,6 +27,6 @@ export default class UserCreator implements UserCase<UserCreatorRequest> {
     const user = new User({ id, name, password, email })
 
     // Save user
-    this.repository.save(user)
+    await this.repository.save(user)
   }
 }

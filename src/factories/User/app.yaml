@@ -11,8 +11,8 @@ services:
     arguments: ['@App.Context.Shared.infrastructure.mongo.MongoConfig']
   
   App.Context.User.domain.UserRepository:
-    class:  ../../Context/User/infrastructure/DumpUserRepository
-    arguments: []
+    class:  ../../Context/User/infrastructure/mongo/MongoUserRepository
+    arguments: ['@App.Context.Shared.infrastructure.mongo.MongoClient']
   
   App.Context.User.application.UserCreator:
     class: ../../Context/User/application/UserCreator

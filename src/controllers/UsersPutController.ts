@@ -19,7 +19,7 @@ export default class UsersPutController implements Controller {
     const { id, name, password, email } = req.body
     try {
       // Run use case
-      useCase.run({ id, name, password, email })
+      await useCase.run({ id, name, password, email })
       // Return response
       res.status(httpStatus.CREATED).send()
     } catch (error) {

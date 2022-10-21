@@ -1,3 +1,3 @@
 export default interface UseCase<E> {
-  run: (reqeust: E) => void
+  run: (request: E) => Promise<void>
 }
