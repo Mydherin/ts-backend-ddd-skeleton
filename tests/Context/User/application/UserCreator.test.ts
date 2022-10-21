@@ -13,7 +13,7 @@ import MockUserRepository from '../__mocks__/MockUserRepository'
 let repository: MockUserRepository
 let creator: UserCreator
 
-async function test (id: string, name: string, password: string, email: string): Promise<void> {
+async function testBase (id: string, name: string, password: string, email: string): Promise<void> {
   const request = {
     id: new UserId(id),
     name: new UserName(name),
@@ -30,32 +30,22 @@ beforeAll(() => {
   creator = new UserCreator(repository)
 })
 
-describe('A valid user', () => {
-  it('should be create a user', async () => {
-    await test('0766c602-d4d4-48b6-9d50-d3253123275e', 'mydherin', 'P@ssw0rd', 'some-email@email.com')
-  })
+test('A valid user', async () => {
+  await testBase('0766c602-d4d4-48b6-9d50-d3253123275e', 'mydherin', 'P@ssw0rd', 'some-email@email.com')
 })
 
-describe('A invalid uuid', () => {
-  it('should throw an invalid uuid error', () => {
-    expect(async () => await test('066c602-d4d4-48b6-9d50-d3253123275e', 'mydherin', 'P@ssw0rd', 'some-email@email.com')).toThrow(InvalidUuidError)
-  })
+test('Invalid uuid', async () => {
+  await expect(testBase('0766c602-d4d4-48b6-9d50-d3253123275', 'mydherin', 'P@ssw0rd', 'some-email@email.com')).rejects.toThrow(InvalidUuidError)
 })
 
-describe('A invalid username', () => {
-  it('should throw an invalid username error', () => {
-    expect(async () => await test('0766c602-d4d4-48b6-9d50-d3253123275e', '@mydherin', 'P@ssw0rd', 'some-email@email.com')).toThrow(InvalidUsernamedError)
-  })
+test('Invalid user', async () => {
+  await expect(testBase('0766c602-d4d4-48b6-9d50-d3253123275e', '@mydherin', 'P@ssw0rd', 'some-email@email.com')).rejects.toThrow(InvalidUsernamedError)
 })
 
-describe('A invalid password', () => {
-  it('should throw an invalid password error', () => {
-    expect(async () => await test('0766c602-d4d4-48b6-9d50-d3253123275e', 'mydherin', '1234', 'some-email@email.com')).toThrow(InvalidPasswordError)
-  })
+test('Invalid password', async () => {
+  await expect(testBase('0766c602-d4d4-48b6-9d50-d3253123275e', 'mydherin', '1234', 'some-email@email.com')).rejects.toThrow(InvalidPasswordError)
 })
 
-describe('A invalid email', () => {
-  it('should throw an invalid email error', () => {
-    expect(async () => await test('0766c602-d4d4-48b6-9d50-d3253123275e', 'mydherin', 'P@ssw0rd', 'email.com')).toThrow(InvalidEmailError)
-  })
+test('Invalid email', async () => {
+  await expect(testBase('0766c602-d4d4-48b6-9d50-d3253123275e', 'mydherin', 'P@ssw0rd', 'ail.com')).rejects.toThrow(InvalidEmailError)
 })
