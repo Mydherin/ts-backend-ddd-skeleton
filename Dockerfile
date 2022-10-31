@@ -1,6 +1,9 @@
-FROM node:12.16.3-slim
+FROM node:18.10.0-slim
 
-WORKDIR /code
+WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY . ./
 RUN npm install
+RUN npm run build
+EXPOSE 80
+CMD ["npm", "run", "start"]

@@ -1,8 +1,14 @@
-.dockerignore
+.github
 .git
+.gitignore
+.dockerignore
 docker-compose.yml
 Dockerfile
-node_modules
+cucumber.js
+jest.config.js
+*.md
 build
+tests
+node_modules
 data
 logs

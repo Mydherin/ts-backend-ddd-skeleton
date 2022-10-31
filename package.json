@@ -4,9 +4,10 @@
   "description": "",
   "scripts": {
     "dev": "NODE_ENV=dev ts-node-dev --ignore-watch ./node_modules ./src/start.ts",
-    "build": "npm run build:clean && copyfiles './src/**/*.{json,yaml,html,png}' ./build/src && tsc",
-    "build:clean": "rm -r build; exit 0",
-    "start": "NODE_ENV=production node ./build/src/start.js",
+    "build": "npm run build:clean && tsc && npm run build:assets",
+    "build:assets": "bash ./scripts/copy-assets.sh",
+    "build:clean": "rimraf build",
+    "start": "NODE_ENV=production node ./build/start.js",
     "lint": "ts-standard",
     "lint:fix": "ts-standard --fix",
     "test": "npm run test:features && npm run test:unit",
@@ -40,7 +41,6 @@
     "body-parser": "1.20.1",
     "compression": "1.7.4",
     "convict": "6.2.3",
-    "copyfiles": "2.4.1",
     "errorhandler": "1.5.1",
     "express": "4.18.2",
     "express-promise-router": "4.1.1",
@@ -49,7 +49,8 @@
     "helmet": "6.0.0",
     "http-status": "1.5.3",
     "mongodb": "4.10.0",
-    "node-dependency-injection": "3.0.3"
+    "node-dependency-injection": "3.0.3",
+    "rimraf": "3.0.2"
   },
   "eslintConfig": {
     "parserOptions": {

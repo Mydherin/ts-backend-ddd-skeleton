@@ -1,11 +1,25 @@
 version: '3.8'
 
 services:
-  mongo:
+  db:
+    container_name: db
     image: mongo:5.0.0
     environment:
-      - MONGO_URL=mongodb://mongo:27017/app
+      - MONGO_URL=mongodb://db:27017/app
     volumes:
       - ./data/mongo:/data/db:delegated
     ports:
       - 27017:27017
+  app:
+    container_name: app
+    image: mydherin/app:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_URL=mongodb://db:27017/app
+      - PORT=5000
+    ports:
+      - 5000:5000
+    depends_on:
+      - "db"
