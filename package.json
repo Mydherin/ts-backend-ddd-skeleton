@@ -7,7 +7,7 @@
     "build": "npm run build:clean && tsc && npm run build:assets",
     "build:assets": "bash ./scripts/copy-assets.sh",
     "build:clean": "rimraf build",
-    "start": "NODE_ENV=production node ./build/start.js",
+    "start": "NODE_ENV=production node ./build/src/start.js",
     "lint": "ts-standard",
     "lint:fix": "ts-standard --fix",
     "test": "npm run test:features && npm run test:unit",
